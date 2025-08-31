@@ -78,7 +78,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(projects);
   } catch (error) {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error,message: "Server error" }, { status: 500 });
   }
 }
 
@@ -110,7 +110,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: "Project deleted successfully" });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete project" },
+      { error,message: "Failed to delete project" },
       { status: 500 }
     );
   }
@@ -167,6 +167,6 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
+    return NextResponse.json({ error,message: 'Failed to update project' }, { status: 500 });
   }
 }

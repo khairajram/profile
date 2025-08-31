@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { Mail } from "lucide-react";
 import { Skills, User } from "./PortfolioPage";
 import { SkillTag } from "./SkillTag";

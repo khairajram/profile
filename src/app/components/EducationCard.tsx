@@ -1,6 +1,5 @@
 import { GraduationCap } from "lucide-react";
 import { Educations } from "./PortfolioPage";
-import { toUpperCase, uppercase } from "zod";
 
 export function EducationCard({ education }: { education: Educations }) {
   return (

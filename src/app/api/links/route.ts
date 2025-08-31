@@ -68,7 +68,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(links);
   } catch (error) {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error, message: "Server error" }, { status: 500 });
   }
 }
 
@@ -99,7 +99,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: "Links deleted successfully" });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete links" },
+      { error,message: "Failed to delete links" },
       { status: 500 }
     );
   }
@@ -150,7 +150,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update link' }, { status: 500 });
+    return NextResponse.json({ error,message: 'Failed to update link' }, { status: 500 });
   }
 }
 

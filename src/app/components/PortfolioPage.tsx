@@ -52,7 +52,6 @@ export default function PortfolioPage() {
   const [projects,setProjects] = useState<Projects[]>([]);
   const [skills,setSkills] = useState<Skills[]>();
   const [education,setEducation] = useState<Educations[]>([]);
-  const [work,setwork] = useState<any>();
   const [links,setlinks] = useState<Links>();
 
   useEffect(() => {

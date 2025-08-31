@@ -68,7 +68,7 @@ export async function GET(req : Request) {
 
     return NextResponse.json(profile);
   } catch (error) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ message: 'Server error',error }, { status: 500 });
   }
 }
 
@@ -87,7 +87,7 @@ export async function DELETE() {
 
     return NextResponse.json({ message: 'Profile deleted' });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete profile' }, { status: 500 });
+    return NextResponse.json({ message: 'Failed to delete profile',error }, { status: 500 });
   }
 }
 
@@ -133,7 +133,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
+    return NextResponse.json({ message: 'Failed to update profile',error }, { status: 500 });
   }
 }
 

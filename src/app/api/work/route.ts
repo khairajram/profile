@@ -150,7 +150,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update workExperience' }, { status: 500 });
+    return NextResponse.json({ error,message: 'Failed to update workExperience' }, { status: 500 });
   }
 }
 
