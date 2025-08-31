@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  about     String
+  links     Links?
+  skills    Skill[]
+  educations    education[]
+  projects  Project[]
+  work      WorkExperience[]
+}
+
+model education{
+   id        String   @id @default(uuid())
+   level     String
+   instName  String
+   streame   String
+   year_of_passing    String
+   percentage       Int
+   profile  Profile?  @relation(fields: [profileId], references: [id])
+   profileId String?
+}
+
+model Skill {
+  id       String   @id @default(uuid())
+  name     String
+  level    String?   
+  profile  Profile?  @relation(fields: [profileId], references: [id])
+  profileId String?
+  projects  Project[] @relation("ProjectSkills")
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  link        String?
+  techStack   String?   
+  skills    Skill[]  @relation("ProjectSkills")
+  profile     Profile?  @relation(fields: [profileId], references: [id])
+  profileId   String?
+}
+
+model WorkExperience {
+  id          String   @id @default(uuid())
+  company     String
+  role        String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  profile     Profile?  @relation(fields: [profileId], references: [id])
+  profileId   String?
+}
+
+model Links {
+  id        String   @id @default(uuid())
+  github    String?
+  linkedin  String?
+  portfolio String?
+  resume    String?
+  twitter   String?
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  profileId String   @unique
+}
+
