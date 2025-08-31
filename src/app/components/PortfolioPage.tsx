@@ -1,5 +1,4 @@
 "use client"
-/* eslint-disable @next/next/no-img-element */
 
 
 import { ProfileCard } from "./ProfileCard";
@@ -59,7 +58,17 @@ export default function PortfolioPage() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("./api/profile");
-      const data : any = await res.json();
+      const data : {
+                      projects: Projects[];
+                      skills: Skills[];
+                      educations: Educations[];
+                      work: undefined
+                      links: Links;
+                      id: string;
+                      name: string;
+                      email: string;
+                      about: string;
+                    } = await res.json();
       
       const user = {
         id : data.id,
