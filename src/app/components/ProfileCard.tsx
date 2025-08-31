@@ -26,6 +26,15 @@ export function ProfileCard({ user,skills }: { user : User,skills : Skills[] }) 
         
         <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
         <div className="flex items-center text-gray-600 mt-1">
+          <FileText size={18} className="mr-2 text-blue-500" />
+          <Link href="/Khairaj Student CV Resume.pdf" target="_blank">
+            <span className="text-blue-700 underline">
+              Resume
+            </span> 
+            </Link>
+        </div>
+        
+        <div className="flex items-center text-gray-600 mt-1">
           <Mail size={18} className="mr-2 text-blue-500" />
           <span>{user?.email}</span>
         </div>
