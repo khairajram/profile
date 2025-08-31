@@ -3,6 +3,7 @@
 import { Mail,FileText } from "lucide-react";
 import { Skills, User } from "./PortfolioPage";
 import { SkillTag } from "./SkillTag";
+import Link from "next/link";
 
 export function ProfileCard({ user,skills }: { user : User,skills : Skills[] }) {
   return (
