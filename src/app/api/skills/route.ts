@@ -60,7 +60,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(skills);
   } catch (error) {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+    return NextResponse.json({ error,message: "Server error" }, { status: 500 });
   }
 }
 
@@ -92,7 +92,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ message: "Skill deleted successfully" });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to delete skill" },
+      { error,message: "Failed to delete skill" },
       { status: 500 }
     );
   }
@@ -143,7 +143,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 });
+    return NextResponse.json({ error,message: 'Failed to update profile' }, { status: 500 });
   }
 }
 

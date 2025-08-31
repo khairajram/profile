@@ -1,4 +1,6 @@
 "use client"
+/* eslint-disable @next/next/no-img-element */
+
 
 import { ProfileCard } from "./ProfileCard";
 import ProjectsSection from "./ProjectCard";

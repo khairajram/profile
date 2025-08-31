@@ -44,7 +44,7 @@ export default function ProjectsSection({ projects }: { projects: Projects[] }) 
                 <div className="flex flex-wrap gap-2">
                   <p className="font-semibold mb-1">Tech Stack:</p>
                   {project.skills.map((s) => (
-                    <SkillTag name={s.name}/>
+                    <SkillTag key={s.id} name={s.name}/>
                   ))}
                 </div>
               </CardContent>
