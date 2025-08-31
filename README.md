@@ -66,7 +66,7 @@ Local app will run at `http://localhost:3000`
 npx prisma migrate deploy
 ```
 
-* App will be available at `https://www.khairaj.tech/`
+* App will be available at `[https://www.khairaj.tech/](https://www.khairaj.tech/)`
 
 ---
 
