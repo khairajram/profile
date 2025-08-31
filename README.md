@@ -1,36 +1,249 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Profile API Playground (Track A Backend Assessment)
 
-## Getting Started
+This project is a **Next.js full-stack application** for the **Track A Backend Assessment**. It exposes APIs to fetch my profile, skills, projects, work experience, and links, backed by a database with Prisma ORM. A minimal frontend is also provided to query and display the data.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🏗️ Architecture
+
+```
++-----------------+         +-------------------+         +----------------+
+|   Frontend UI   | <--->   |  Next.js API      | <--->   |   Database     |
+| (React/Next.js) |         |  (App Router)     |         | (Postgres/Mongo)
++-----------------+         +-------------------+         +----------------+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Frontend:** Next.js pages consuming internal API routes.
+* **Backend:** Next.js API routes (`/api/...`) using Prisma ORM.
+* **Database:** PostgreSQL (can be swapped for SQLite/Mongo).
+* **Hosting:** Vercel for both frontend and backend (single deployment).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ⚙️ Setup Instructions
 
-## Learn More
+### 1. Local Development
 
-To learn more about Next.js, take a look at the following resources:
+#### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Node.js >= 18
+* npm or yarn
+* PostgreSQL (or use SQLite for quick setup)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Steps
 
-## Deploy on Vercel
+```bash
+# Clone repo
+git clone <repo-url>
+cd profile-api-playground
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Install deps
+npm install
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Setup environment
+cp .env.example .env
+# Update DATABASE_URL in .env (e.g. for Postgres)
+# DATABASE_URL="postgresql://user:password@localhost:5432/profiledb"
+
+# Prisma migrations
+npx prisma migrate dev --name init
+
+# Seed database
+npx prisma db seed
+
+# Run locally
+npm run dev
+```
+
+Local app will run at `http://localhost:3000`
+
+---
+
+### 2. Production (Deployment)
+
+* Deploy directly to **Vercel** (Next.js recommended host).
+* Add environment variable `DATABASE_URL` in Vercel settings.
+* Push migrations:
+
+```bash
+npx prisma migrate deploy
+```
+
+* App will be available at `https://<your-app>.vercel.app`
+
+---
+
+## 🗄️ Database Schema (Prisma)
+
+```prisma
+model Profile {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  education String
+  about     String
+  links     Links?
+  skills    Skill[]
+  projects  Project[]
+  work      WorkExperience[]
+}
+
+model Skill {
+  id       String   @id @default(uuid())
+  name     String
+  level    String?
+  profile  Profile?  @relation(fields: [profileId], references: [id])
+  profileId String?
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  link        String?
+  techStack   String?
+  profile     Profile?  @relation(fields: [profileId], references: [id])
+  profileId   String?
+}
+
+model WorkExperience {
+  id          String   @id @default(uuid())
+  company     String
+  role        String
+  startDate   DateTime
+  endDate     DateTime?
+  description String?
+  profile     Profile?  @relation(fields: [profileId], references: [id])
+  profileId   String?
+}
+
+model Links {
+  id        String   @id @default(uuid())
+  github    String?
+  linkedin  String?
+  portfolio String?
+  twitter   String?
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  profileId String   @unique
+}
+```
+
+---
+
+## 📦 Sample Data (Seed)
+
+```json
+{
+  "profile": {
+    "name": "Khairaj Ram",
+    "email": "khairaj@example.com",
+    "education": "B.Tech in Computer Science",
+    "about": "Backend & blockchain developer passionate about APIs and system design"
+  },
+  "skills": [
+    { "name": "Next.js", "level": "Intermediate" },
+    { "name": "Node.js", "level": "Advanced" },
+    { "name": "Solidity", "level": "Intermediate" }
+  ],
+  "projects": [
+    {
+      "title": "MediCare",
+      "description": "Pet-focused medical app with API-first backend",
+      "link": "https://github.com/khairaj/medicare",
+      "techStack": "Next.js, Node.js, MongoDB"
+    }
+  ],
+  "work": [
+    {
+      "company": "Freelance",
+      "role": "Full Stack Developer",
+      "startDate": "2023-01-01",
+      "endDate": null,
+      "description": "Built web apps and DApps for clients"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/khairaj",
+    "linkedin": "https://linkedin.com/in/khairaj",
+    "portfolio": "https://khairaj.dev"
+  }
+}
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Health
+
+```bash
+GET /api/health
+# Response: { "status": "ok" }
+```
+
+### Profile
+
+```bash
+GET /api/profile
+```
+
+### Skills
+
+```bash
+GET /api/skills
+GET /api/skills?search=next
+```
+
+### Projects
+
+```bash
+GET /api/projects
+GET /api/projects?skill=node
+```
+
+### Work Experience
+
+```bash
+GET /api/work
+```
+
+### Links
+
+```bash
+GET /api/links
+```
+
+---
+
+## 📬 cURL / Postman Examples
+
+**cURL:**
+
+```bash
+curl http://localhost:3000/api/health
+curl http://localhost:3000/api/profile
+curl http://localhost:3000/api/skills?search=node
+```
+
+**Postman Collection:**
+A ready-to-import JSON file is included in `/postman_collection.json`.
+
+---
+
+## ⚠️ Known Limitations
+
+* Authentication not implemented (all endpoints are public).
+* Pagination missing (all results returned at once).
+* Tech stack per project stored as a string, not normalized relation.
+* Logging/monitoring not added.
+* Deployment assumes managed DB (e.g., Supabase, Railway, Neon).
+
+---
+
+## 📄 Resume
+
+Resume is available at: [My Resume](./resume.pdf)
+
+---
+
+✅ This README covers architecture, setup, schema, sample data, API usage, Postman/cURL, and known issues.
