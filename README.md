@@ -15,7 +15,7 @@ This project is a **Next.js full-stack application** for the **Track A Backend A
 
 * **Frontend:** Next.js pages consuming internal API routes.
 * **Backend:** Next.js API routes (`/api/...`) using Prisma ORM.
-* **Database:** PostgreSQL (can be swapped for SQLite/Mongo).
+* **Database:** PostgreSQL .
 * **Hosting:** Vercel for both frontend and backend (single deployment).
 
 ---
@@ -27,15 +27,15 @@ This project is a **Next.js full-stack application** for the **Track A Backend A
 #### Prerequisites
 
 * Node.js >= 18
-* npm or yarn
-* PostgreSQL (or use SQLite for quick setup)
+* npm 
+* PostgreSQL
 
 #### Steps
 
 ```bash
 # Clone repo
-git clone <repo-url>
-cd profile-api-playground
+git clone https://github.com/khairajram/profile.git
+
 
 # Install deps
 npm install
@@ -47,9 +47,6 @@ cp .env.example .env
 
 # Prisma migrations
 npx prisma migrate dev --name init
-
-# Seed database
-npx prisma db seed
 
 # Run locally
 npm run dev
@@ -69,7 +66,7 @@ Local app will run at `http://localhost:3000`
 npx prisma migrate deploy
 ```
 
-* App will be available at `https://<your-app>.vercel.app`
+* App will be available at `https://www.khairaj.tech/`
 
 ---
 
@@ -128,49 +125,6 @@ model Links {
 }
 ```
 
----
-
-## 📦 Sample Data (Seed)
-
-```json
-{
-  "profile": {
-    "name": "Khairaj Ram",
-    "email": "khairaj@example.com",
-    "education": "B.Tech in Computer Science",
-    "about": "Backend & blockchain developer passionate about APIs and system design"
-  },
-  "skills": [
-    { "name": "Next.js", "level": "Intermediate" },
-    { "name": "Node.js", "level": "Advanced" },
-    { "name": "Solidity", "level": "Intermediate" }
-  ],
-  "projects": [
-    {
-      "title": "MediCare",
-      "description": "Pet-focused medical app with API-first backend",
-      "link": "https://github.com/khairaj/medicare",
-      "techStack": "Next.js, Node.js, MongoDB"
-    }
-  ],
-  "work": [
-    {
-      "company": "Freelance",
-      "role": "Full Stack Developer",
-      "startDate": "2023-01-01",
-      "endDate": null,
-      "description": "Built web apps and DApps for clients"
-    }
-  ],
-  "links": {
-    "github": "https://github.com/khairaj",
-    "linkedin": "https://linkedin.com/in/khairaj",
-    "portfolio": "https://khairaj.dev"
-  }
-}
-```
-
----
 
 ## 🔌 API Endpoints
 
@@ -191,14 +145,14 @@ GET /api/profile
 
 ```bash
 GET /api/skills
-GET /api/skills?search=next
+GET /api/skills?id=next
 ```
 
 ### Projects
 
 ```bash
 GET /api/projects
-GET /api/projects?skill=node
+GET /api/projects?id=node
 ```
 
 ### Work Experience
@@ -222,11 +176,8 @@ GET /api/links
 ```bash
 curl http://localhost:3000/api/health
 curl http://localhost:3000/api/profile
-curl http://localhost:3000/api/skills?search=node
+curl http://localhost:3000/api/skills?id=node
 ```
-
-**Postman Collection:**
-A ready-to-import JSON file is included in `/postman_collection.json`.
 
 ---
 
@@ -234,9 +185,7 @@ A ready-to-import JSON file is included in `/postman_collection.json`.
 
 * Authentication not implemented (all endpoints are public).
 * Pagination missing (all results returned at once).
-* Tech stack per project stored as a string, not normalized relation.
 * Logging/monitoring not added.
-* Deployment assumes managed DB (e.g., Supabase, Railway, Neon).
 
 ---
 
